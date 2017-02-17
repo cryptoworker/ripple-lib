@@ -320,6 +320,93 @@ describe('RippleAPI', function() {
           'prepare'));
   });
 
+  it('preparePaymentChannelCreate', function() {
+    const localInstructions = _.defaults({
+      maxFee: '0.000012'
+    }, instructions);
+    return this.api.preparePaymentChannelCreate(
+      address, requests.preparePaymentChannelCreate.normal,
+      localInstructions).then(
+        _.partial(checkResult, responses.preparePaymentChannelCreate.normal,
+          'prepare'));
+  });
+
+  it('preparePaymentChannelCreate full', function() {
+    return this.api.preparePaymentChannelCreate(
+      address, requests.preparePaymentChannelCreate.full).then(
+        _.partial(checkResult, responses.preparePaymentChannelCreate.full,
+          'prepare'));
+  });
+
+  it('preparePaymentChannelFund', function() {
+    const localInstructions = _.defaults({
+      maxFee: '0.000012'
+    }, instructions);
+    return this.api.preparePaymentChannelFund(
+      address, requests.preparePaymentChannelFund.normal,
+      localInstructions).then(
+        _.partial(checkResult, responses.preparePaymentChannelFund.normal,
+          'prepare'));
+  });
+
+  it('preparePaymentChannelFund full', function() {
+    return this.api.preparePaymentChannelFund(
+      address, requests.preparePaymentChannelFund.full).then(
+        _.partial(checkResult, responses.preparePaymentChannelFund.full,
+          'prepare'));
+  });
+
+  it('preparePaymentChannelClaim', function() {
+    const localInstructions = _.defaults({
+      maxFee: '0.000012'
+    }, instructions);
+    return this.api.preparePaymentChannelClaim(
+      address, requests.preparePaymentChannelClaim.normal,
+      localInstructions).then(
+        _.partial(checkResult, responses.preparePaymentChannelClaim.normal,
+          'prepare'));
+  });
+
+  it('preparePaymentChannelClaim with renew', function() {
+    const localInstructions = _.defaults({
+      maxFee: '0.000012'
+    }, instructions);
+    return this.api.preparePaymentChannelClaim(
+      address, requests.preparePaymentChannelClaim.renew,
+      localInstructions).then(
+        _.partial(checkResult, responses.preparePaymentChannelClaim.renew,
+          'prepare'));
+  });
+
+  it('preparePaymentChannelClaim with close', function() {
+    const localInstructions = _.defaults({
+      maxFee: '0.000012'
+    }, instructions);
+    return this.api.preparePaymentChannelClaim(
+      address, requests.preparePaymentChannelClaim.close,
+      localInstructions).then(
+        _.partial(checkResult, responses.preparePaymentChannelClaim.close,
+          'prepare'));
+  });
+
+  it('throws on preparePaymentChannelClaim with renew and close', function() {
+    assert.throws(() => {
+      this.api.preparePaymentChannelClaim(
+        address, requests.preparePaymentChannelClaim.full).then(
+          _.partial(checkResult, responses.preparePaymentChannelClaim.full,
+            'prepare'));
+    }, this.api.errors.ValidationError);
+  });
+
+  it('throws on preparePaymentChannelClaim with no signature', function() {
+    assert.throws(() => {
+      this.api.preparePaymentChannelClaim(
+        address, requests.preparePaymentChannelClaim.noSignature).then(
+          _.partial(checkResult, responses.preparePaymentChannelClaim.noSignature,
+            'prepare'));
+    }, this.api.errors.ValidationError);
+  });
+
   it('sign', function() {
     const secret = 'shsWGZcmZz6YsWWmcnpfr6fLTdtFV';
     const result = this.api.sign(requests.sign.normal.txJSON, secret);
