@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "getLedgerEntryParameters",
+  "description": "Parameters for getLedgerEntry",
+  "type": "object",
+  "properties": {
+    "ledgerVersion": {
+      "type": "number",
+      "description": "Ledger version of this entry"
+    },
+    "ledgerHash": {
+      "$ref": "hash160",
+      "description": "160-bit ledger hash"
+    },
+    "ledgerEntryType": {
+      "type": "string",
+      "description": "Name of this entry's type"
+    },
+    "amount": {
+      "$ref": "value",
+      "description": "XRP 
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,24 @@
+## getLedgerEntry
+
+`getLedgerEntry(index: string): Promise<Object>`
+
+Returns information for the specified ledger entry.
+
+### Parameters
+
+<%- renderSchema('input/get-ledger-entry.json') %>
+
+### Return Value
+
+This method returns a promise that resolves with an object with the following structure:
+
+<%- renderSchema('output/get-ledger-entry.json') %>
+
+### Example
+
+```javascript
+return api.getLedgerEntry()
+  .then(entry => {/* ... */});
+```
+
+<%- renderFixture('responses/get-ledger-entry.json') %>
