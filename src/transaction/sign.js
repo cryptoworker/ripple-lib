@@ -45,4 +45,33 @@ function sign(txJSON: string, secret: string, options: Object = {}
   }
 }
 
-module.exports = sign
+function sign_by_keypair(txJSON: string, keypair: Object, options: Object = {}
+): {signedTransaction: string; id: string} {
+
+  const tx = JSON.parse(txJSON)
+  if (tx.TxnSignature || tx.Signers) {
+    throw new utils.common.errors.ValidationError(
+      'txJSON must not contain "TxnSignature" or "Signers" properties')
+  }
+
+  tx.SigningPubKey = options.signAs ? '' : keypair.publicKey
+
+  if (options.signAs) {
+    const signer = {
+      Account: options.signAs,
+      SigningPubKey: keypair.publicKey,
+      TxnSignature: computeSignature(tx, keypair.privateKey, options.signAs)
+    }
+    tx.Signers = [{Signer: signer}]
+  } else {
+    tx.TxnSignature = computeSignature(tx, keypair.privateKey)
+  }
+
+  const serialized = binary.encode(tx)
+  return {
+    signedTransaction: serialized,
+    id: computeBinaryTransactionHash(serialized)
+  }
+}
+
+module.exports = sign_by_keypair
